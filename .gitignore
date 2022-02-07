@@ -1,0 +1,11 @@
+# cache
+__pycache__/
+
+# google key
+ikala/google/*.json
+
+# env
+*.env
+
+# static
+static/
