@@ -3,10 +3,11 @@ from rest_framework.response import Response
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
 from create_table.dataset import BigQuery
 
+from google.cloud.exceptions import NotFound
 from datetime import datetime
+
 
 class CreateTable(APIView):
     @swagger_auto_schema(
@@ -28,13 +29,34 @@ class CreateTable(APIView):
     def post(self, request):
         data = request.data
         data.update({
-            "id": 1,
-            "created_at": '2022-02-07T17:50:30' #datetime.now()
+            "created_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S") 
         })
-        print('data is =>', data)
-        big_query =  BigQuery()
-        big_query.create_dataset()
-        table = big_query.create_table()
-        rows_to_insert = [data]
-        big_query._client.insert_rows_json(table, rows_to_insert)
-        return Response(data)
+        
+        bq =  BigQuery()
+
+        dataset_id = "{}.ikala_super_swe_2022".format(bq._project)
+        table_id = "{}.ikala_super_swe_2022.interview_project".format(bq._project)
+        
+        # 1. Check if dataset existed
+        try:
+            bq.chk_dataset(dataset_id)
+            print("Dataset {} already exists".format(dataset_id))
+        except NotFound:
+            print("Dataset {} is not found".format(dataset_id))
+            bq.create_dataset()
+
+        # 2. Check if table existed
+        try:
+            table = bq.chk_table(table_id)
+            print("Tablet {} already exists".format(table_id))
+        except NotFound:
+            print("Table {} is not found.".format(table_id))
+            table = bq.create_table()
+        
+        data_rows = [data]
+        bq._client.insert_rows_json(table, data_rows)
+
+        # Read from bigquery to make sure that every data has been written to bq
+        result = bq.read()
+        
+        return Response(result)
