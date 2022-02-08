@@ -11,32 +11,34 @@ class BigQuery:
         try:
             return self._client.get_dataset(dataset_id)
         except NotFound:
-            return False
+            return None
 
     def get_table(self, table_id):
         try:
             return self._client.get_table(table_id)
         except NotFound:
-            return False
+            return None
 
     def read(self):
-        query = f"""
-            SELECT ROW_NUMBER() OVER() AS id, *
-            FROM `{self._project}.ikala_super_swe_2022.interview_project`
-        """
-        query_job = self._client.query(query)
-        return [dict(row) for row in query_job]
+        try:
+            query = f"""
+                SELECT ROW_NUMBER() OVER() AS id, *
+                FROM `{self._project}.ikala_super_swe_2022.interview_project`
+            """
+            query_job = self._client.query(query)
+            return [dict(row) for row in query_job]
+        except NotFound:
+            return None
 
 
-    def create_dataset(self):
-        dataset_id = "{}.ikala_super_swe_2022".format(self._project)
+    def create_dataset(self, dataset_id):
         dataset = bigquery.Dataset(dataset_id)
         dataset.location = "US"
         dataset = self._client.create_dataset(dataset, timeout=30)
+        return dataset
     
 
-    def create_table(self):
-        table_id = "{}.ikala_super_swe_2022.interview_project".format(self._project)
+    def create_table(self, table_id):
         schema = [
             bigquery.SchemaField("name", "STRING", mode="REQUIRED"),
             bigquery.SchemaField("age", "INTEGER", mode="REQUIRED"),

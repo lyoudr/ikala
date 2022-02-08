@@ -30,9 +30,10 @@ class CreateTable(APIView):
     )
     def post(self, request):
         data = request.data
-        data.update({
-            "created_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S") 
-        })
+        if not data.get('created_at'):
+            data.update({
+                "created_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S") 
+            })
         
         bq =  BigQuery()
         dataset_id = "{}.ikala_super_swe_2022".format(bq._project)
@@ -41,12 +42,12 @@ class CreateTable(APIView):
         # 1. Check if dataset existed
         dataset = bq.get_dataset(dataset_id)
         if not dataset:
-            bq.create_dataset()
+            bq.create_dataset(dataset_id)
 
         # 2. Check if table existed
         table = bq.get_table(table_id)
         if not table:
-            table = bq.create_table()
+            table = bq.create_table(table_id)
 
         # 3. Insert data
         data_rows = [data]
