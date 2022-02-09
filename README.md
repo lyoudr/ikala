@@ -74,7 +74,7 @@ An app which provides API about creating dataset and table and inserting data to
 ### 6. Code Base in GitHub
 - Please refer to my github [my github](https://github.com/lyoudr/ikala)
 ### 7. Test API
-#### (1) API Spec
+#### **(1) API Spec**
 - Domain/IP: 34.81.253.216
 - Url: http://34.81.253.216/api/bigquery/create_table
 - Method: POST
@@ -86,12 +86,22 @@ An app which provides API about creating dataset and table and inserting data to
         "age": 20
     }
     ```
-
-#### (2) Curl to call this API
+#### **(2) Success Response**
+|  status code   |  re_code     | re_message               | re_data  |
+| :-------------:| :----------- | :----------------------- | :-------:|
+|   200          |  api_success | create data successfully | {data}   |
+#### **(3) Error Code Definition**
+|  error code   |  status code   |   error messages            |
+| :------------ | :------------:| :-------------------------- |
+| read_db_err   |      404      | can not find data           |
+| insert_tb_err |      500      | insert data to table failed |
+| create_db_err |      500      | error message               |
+| create_tb_err |      500      | error message               |
+#### **(4) Curl to call this API**
 - Please curl this api url to get result http://34.81.253.216/api/bigquery/create_table
     ```
     curl -X POST "http://34.81.253.216/api/bigquery/create_table" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"name\": \"John\",  \"age\": 18}"
     ```
-#### (3) Swagger page
+#### **(5) Swagger page**
 - You can also test this api in my swagger page
     http://34.81.253.216/swagger/

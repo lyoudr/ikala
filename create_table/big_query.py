@@ -35,7 +35,7 @@ class BigQuery:
             raise CustomError(
                 error_code = 'read_db_err', 
                 status_code = status.HTTP_404_NOT_FOUND, 
-                err_message = 'read error'
+                err_message = 'can not find data'
             )
     
     def write(self, table, data_rows):
