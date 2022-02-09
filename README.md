@@ -59,7 +59,8 @@ An app which provides API about creating dataset and table and inserting data to
     - test create dataset
     - test create table
     - test read table
-    - test calling api 
+    - test calling api once
+    - test api error rate
 - Run test 
     ```
     python manage.py test
@@ -73,9 +74,13 @@ An app which provides API about creating dataset and table and inserting data to
 
 ### 6. Code Base in GitHub
 - Please refer to my github [my github](https://github.com/lyoudr/ikala)
+
 ### 7. Test API
+
 #### **(1) API Spec**
+**a. create_table_01**
 - Domain/IP: 34.81.253.216
+- API No.: create_table_01
 - Url: http://34.81.253.216/api/bigquery/create_table
 - Method: POST
 - Request body format: Json, 
@@ -86,17 +91,23 @@ An app which provides API about creating dataset and table and inserting data to
         "age": 20
     }
     ```
+
+**b. delete_dataset_02**
+- I create this API for testing only
 #### **(2) Success Response**
-|  status code   |  re_code     | re_message               | re_data  |
-| :-------------:| :----------- | :----------------------- | :-------:|
-|   200          |  api_success | create data successfully | {data}   |
+|  status code   |  re_code     | re_message                  | re_data  |
+| :-------------:| :----------- | :-------------------------- | :-------:|
+|   200          |  api_success | create data successfully    | {data}   |
+|   200          |  api_success | delete dataset successfully | {data}   |
+
 #### **(3) Error Code Definition**
-|  error code   |  status code   |   error messages            |
+|  error code   |  status code  |   error messages            |
 | :------------ | :------------:| :-------------------------- |
 | read_db_err   |      404      | can not find data           |
-| insert_tb_err |      500      | insert data to table failed |
+| insert_tb_err |      404      | can not find table          |
 | create_db_err |      500      | error message               |
 | create_tb_err |      500      | error message               |
+
 #### **(4) Curl to call this API**
 - Please curl this api url to get result http://34.81.253.216/api/bigquery/create_table
     ```

@@ -75,7 +75,7 @@ class BigQuery:
             raise CustomError(
                 error_code = 'create_db_err', 
                 status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                err_message = f'{error}'
+                err_message = str(error)
             )
     
 
@@ -92,5 +92,5 @@ class BigQuery:
             raise CustomError(
                 error_code = 'create_tb_err', 
                 status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                err_message = f'{error}'
+                err_message = str(error)
             )

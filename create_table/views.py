@@ -9,7 +9,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from datetime import datetime
-import time
+
 class CreateTable(APIView):
     serializer_class = CreateTableSerializer
 
@@ -21,10 +21,12 @@ class CreateTable(APIView):
                 'name': openapi.Schema(
                     type = openapi.TYPE_STRING,
                     description = 'name',
+                    example = 'Ann',
                 ),
                 'age': openapi.Schema(
                     type = openapi.TYPE_INTEGER,
                     description = 'age',
+                    example = 20,
                 )
             }
         )
@@ -76,10 +78,14 @@ class CreateTable(APIView):
         """
         try:
             bq =  BigQuery()
-            dataset_id = "{}.ikala_super_swe_2022".format(bq._project)
-            bq._client.delete_dataset(
-                dataset_id, delete_contents=True, not_found_ok=True
-            ) 
+            dataset_ids = (
+                "{}.ikala_super_swe_2022".format(bq._project), 
+                "{}.test_dataset".format(bq._project)
+            )
+            for dataset_id in dataset_ids:
+                bq._client.delete_dataset(
+                    dataset_id, delete_contents=True, not_found_ok=True
+                ) 
             return CustomJsonResponse(
                 re_code = 'api_success',
                 re_data = 'delete dataset successfully',
