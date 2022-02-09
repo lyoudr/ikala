@@ -4,57 +4,55 @@ An app which provides API about creating dataset and table and inserting data to
 
 
 ### 1. Create a Linux VM on GCE
-- create Linux VM on compute engine
-- version: Ubuntu 20.04 LTS
-- firewall: allow HTTP traffic
+- Create Linux VM on compute engine
+- Version: Ubuntu 20.04 LTS
+- Firewall: allow HTTP traffic
 
 ### 2. Create Service account 
-- create a service account
-- grant **My Project > Owner** role to this service account
-- download its credentials, a JSON Key file
-- Set the environment variable **GOOGLE_APPLICATION_CREDENTIALS** to the path of the JSON file
+- Create a service account
+- Grant **My Project > Owner** role to this service account
+- Download its JSON Key file credential
+- Set the environment variable **GOOGLE_APPLICATION_CREDENTIALS** to the path of this JSON file
 
 ### 3. Service
-#### (1) Install required libraries
-- Install required libraries and other required libraries descriped in ./requirement.txt
+#### **(1) Install required libraries**
+- Install required libraries and other required libraries described in ./requirement.txt
     ```
     pip install --upgrade google-cloud-bigquery
     ```
 
-#### (2) Django
+#### **(2) Django**
 - Create app **create_table** 
 - Write Class **BigQuery** in ./create_table/big_query.py, use `google-cloud-bigquery` library to communicate with bigquery by using its method: `get_dataset`, `get_table`, `create_dataset`, `create_table`, `query`
 - Create **CreateTable** APIView in ./create_table/views.py
-- Use post method in this view.
-- Request body: json format, ex:
+- Use POST method in this view.
+- Request body: Json format, ex:
     ```
     {
         "name": "Ann"
         "age": 28
     }
     ```
-- Post method code logic:
+- POST method code logic:
     - check if dataset is existed, if it is not, create it.
     - check if table is exist, if it is not, create it.
-    - write user post data to created table : **{project}.ikala_super_swe_2022.interview_project**
-    - read data from bigquery to make sure that the new data has been inserted to the table
-    - return the data read from bigquery 
- 
-- Define **CustomJsonRespone**, **CustomError** in ./ikala/custom_res.py and use these Class to return response and error message
+    - write user post data to the table "**{project}.ikala_super_swe_2022.interview_project**"
+    - read and return all rows from Bigquery table to make sure that the new data has been inserted to the table 
+- Define **CustomJsonRespone**, **CustomError** in ./ikala/custom_res.py and use these Class to return custom response and custom error message
 
-#### (3) Docker-compose
-- For the convenience of environment setting, I package the Django app in docker and set relevant environment variable.
-- Including three containers: Nginx, Django, PostgreSQL
-- Nginx as a web server to route request to Django and serve its static files of swagger api
-- In order to communicate with Nginx, use uwsgi to start Django app
-- PostgreSQL as a database to store basic data
+#### **(3) Docker-Compose**
+- For the convenience of deploying the project to GCE and its environment setting, I built the Django app in a docker container and set relevant environment variable.
+- I use Docker-Compose to deinfe three services: Nginx, Django, PostgreSQL
+- Nginx serves as a web server to route request to Django and provide static files of Swagger
+- uWSGI wrapped Django server, and allows communication between Django server and Nginx
+- PostgreSQL serves as a database to store basic data
 - Start the app by running 
     ```
     docker-compose up -d 
     ```
 
-### 4. Testing
-- In order to verify the correctness of code, I write testing
+### 4. **Testing**
+- In order to verify the correctness of the app, I wrote testing
 - Use Django Test to do testing
 - Write **CreateTableTest** in ./create_table/test.py to define unit test and api test
 - Test logic:
@@ -66,32 +64,34 @@ An app which provides API about creating dataset and table and inserting data to
     ```
     python manage.py test
     ```
-### 5. GitHub Actions
+### 5. GitHub Actions CI
 - About Continous Integration, I use **GitHub Actions**
 - Create a config file in .github/workflows/ikala.yml
-- Github Actions will run Django Test according to this config file
+- Github Actions will set required environmetn and run command `python manage.py test` according to this config file
 - Testing result success:
 ![image](https://github.com/lyoudr/ikala/blob/dev/test.png)
 
 ### 6. Code Base in GitHub
-- Please refer my github [my github](https://github.com/lyoudr/ikala)
+- Please refer to my github [my github](https://github.com/lyoudr/ikala)
 ### 7. Test API
 #### (1) API Spec
-- domain/IP: 34.81.253.216
-- url: http://34.81.253.216/api/bigquery/create_table
-- method: POST
-- request body format: json
-    `
+- Domain/IP: 34.81.253.216
+- Url: http://34.81.253.216/api/bigquery/create_table
+- Method: POST
+- Request body format: Json, 
+- No Token needed
+    ```
     {
         "name": "Amy",
         "age": 20
     }
-    `
-- No Token needed
+    ```
+
+#### (2) Curl to call this API
 - Please curl this api url to get result http://34.81.253.216/api/bigquery/create_table
     ```
     curl -X POST "http://34.81.253.216/api/bigquery/create_table" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"name\": \"John\",  \"age\": 18}"
     ```
-#### (2) Swagger page
+#### (3) Swagger page
 - You can also test this api in my swagger page
     http://34.81.253.216/swagger/
