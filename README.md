@@ -67,11 +67,17 @@ An App which provides API about adding dataset and querying BigQuery
     python manage.py test
     ```
 
-### 5. Code Base : GitHub
+### 5. Code Base in GitHub
 - Please refer my github [my github](https://github.com/lyoudr/ikala)
 
+### 6. GitHub Actions
+- About Continous Integration, I use **GitHub Actions**
+- Create a config file in .github/workflows/ikala.yml
+- Github Actions will run django testing according to this config file
+- Testing result success:
+![image](https://github.com/lyoudr/ikala/test.png)
 
-### 6. Test API
+### 7. Test API
 #### (1) Domain
 - 34.81.253.261
 #### (2) API url
