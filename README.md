@@ -1,6 +1,6 @@
-## Ikala SWE InterView 
+## IKALA SWE Interview App
 ---
-An App which provides API about adding dataset and querying BigQuery
+An app which provides API about creating dataset and table and inserting data to Bigquery
 
 
 ### 1. Create a Linux VM on GCE
@@ -18,7 +18,7 @@ An App which provides API about adding dataset and querying BigQuery
 #### (1) Install required libraries
 - Install required libraries and other required libraries descriped in ./requirement.txt
     ```
-        pip install --upgrade google-cloud-bigquery
+    pip install --upgrade google-cloud-bigquery
     ```
 
 #### (2) Django
@@ -66,25 +66,32 @@ An App which provides API about adding dataset and querying BigQuery
     ```
     python manage.py test
     ```
-
-### 5. Code Base in GitHub
-- Please refer my github [my github](https://github.com/lyoudr/ikala)
-
-### 6. GitHub Actions
+### 5. GitHub Actions
 - About Continous Integration, I use **GitHub Actions**
 - Create a config file in .github/workflows/ikala.yml
-- Github Actions will run django testing according to this config file
+- Github Actions will run Django Test according to this config file
 - Testing result success:
 ![image](https://github.com/lyoudr/ikala/blob/dev/test.png)
 
+### 6. Code Base in GitHub
+- Please refer my github [my github](https://github.com/lyoudr/ikala)
 ### 7. Test API
-#### (1) Domain
-- 34.81.253.261
-#### (2) API url
+#### (1) API Spec
+- domain/IP: 34.81.253.216
+- url: http://34.81.253.216/api/bigquery/create_table
+- method: POST
+- request body format: json
+    `
+    {
+        "name": "Amy",
+        "age": 20
+    }
+    `
+- No Token needed
 - Please curl this api url to get result http://34.81.253.216/api/bigquery/create_table
     ```
     curl -X POST "http://34.81.253.216/api/bigquery/create_table" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"name\": \"John\",  \"age\": 18}"
     ```
-#### (3) Swagger page
-- can also test this api in my swagger page
+#### (2) Swagger page
+- You can also test this api in my swagger page
     http://34.81.253.216/swagger/
