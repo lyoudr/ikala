@@ -10,7 +10,6 @@ from drf_yasg import openapi
 
 from datetime import datetime
 
-
 class CreateTable(APIView):
     serializer_class = CreateTableSerializer
 
