@@ -75,7 +75,7 @@ An App which provides API about adding dataset and querying BigQuery
 - Create a config file in .github/workflows/ikala.yml
 - Github Actions will run django testing according to this config file
 - Testing result success:
-![image](https://github.com/lyoudr/ikala/test.png)
+![image](https://github.com/lyoudr/ikala/blob/dev/test.png)
 
 ### 7. Test API
 #### (1) Domain
