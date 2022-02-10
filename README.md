@@ -71,7 +71,7 @@ An app which provides API about creating dataset and table and inserting data to
 - Create a config file in .github/workflows/ikala.yml
 - Github Actions will set required environmetn and run command `python manage.py test` according to this config file
 - Testing result success:
-![image](https://github.com/lyoudr/ikala/blob/dev/test.png)
+![image](https://github.com/lyoudr/ikala/blob/master/test.png)
 
 ### 6. Code Base in GitHub
 - Please refer to my github [my github](https://github.com/lyoudr/ikala)
