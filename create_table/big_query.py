@@ -42,7 +42,7 @@ class BigQuery:
                 err_message = 'can not find data'
             )
     
-    def write(self, table, data_rows, retry=10):
+    def write(self, table, data_rows, retry=10, sleep_time=3):
         """
             because: https://stackoverflow.com/questions/30348384/not-found-table-for-new-bigquery-table
             so, I just retry in 3 seconds once if insert_rows_json raising error.
@@ -62,7 +62,7 @@ class BigQuery:
                         status_code = status.HTTP_404_NOT_FOUND, 
                         err_message = 'can not find table'
                     )
-                sleep(3) # avoid the high freq. api calling
+                sleep(sleep_time) # avoid the high freq. api calling
                 continue
         
     def create_dataset(self, dataset_id):

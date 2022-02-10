@@ -64,7 +64,7 @@ class CreateTableTest(TestCase):
         error_rate = 0
         error_msg = []
         data = self.data
-        for i in range(0, 10):
+        for i in range(1, 50):
             try:
                 data['age'] += 1
                 # add data to table
@@ -73,7 +73,7 @@ class CreateTableTest(TestCase):
                 self.assert_api(self.client.delete('/api/bigquery/create_table'))
             except Exception as error:
                 error_rate += 1
-                error_msg.append(str(error))
+                error_msg.append({'time': i, 'msg': str(error)})
         print(f'error rate is => {error_rate/10 *100}%')
         print(error_msg)
 

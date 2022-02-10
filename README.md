@@ -61,6 +61,7 @@ An app which provides API about creating dataset and table and inserting data to
     - test read table
     - test calling api once
     - test api error rate
+        - about this test, I write a for loop to call this api 50 times, each time will create dataset, table, data, and then delete  this dataset, and loop this procedure again and again to make sure that no error occured after multiple times query.
 - Run test 
     ```
     python manage.py test

@@ -58,7 +58,7 @@ class CreateTable(APIView):
         
         # 3. Insert data and read result from table
         data_rows = [data]
-        bq.write(table, data_rows)
+        bq.write(table, data_rows, sleep_time=10)
         result = bq.read(table_id)
 
         return CustomJsonResponse(
